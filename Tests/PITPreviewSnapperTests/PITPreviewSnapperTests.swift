@@ -1,11 +1,24 @@
 import XCTest
+import SwiftUI
 @testable import PITPreviewSnapper
 
 final class PITPreviewSnapperTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(PITPreviewSnapper().text, "Hello, World!")
+    func testWithoutHierarchy() throws {
+        let snapper = PreviewSnapper(drawInHierarchy: false)
+        
+        try! snapper.snap(
+            PreviewSnap(
+                preview: Test_Previews._allPreviews,
+                filename: "Test"
+            ).setFrame(.sizeToFit)
+        )
+    }
+}
+
+private struct Test_Previews: PreviewProvider {
+    static var previews: some View {
+        Rectangle()
+            .fill(Color.red)
+            .frame(width: 50, height: 50)
     }
 }
