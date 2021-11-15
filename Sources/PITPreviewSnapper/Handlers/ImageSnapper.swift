@@ -8,6 +8,8 @@ internal class ImageSnapper {
         
         view.frame.origin = .init(x: 0, y: view.safeAreaInsets.top)
         view.backgroundColor = .clear
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
         
         return renderer.image { ctx in
             if drawInHierarchy {
