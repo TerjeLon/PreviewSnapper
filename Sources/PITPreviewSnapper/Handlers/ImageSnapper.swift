@@ -3,13 +3,11 @@ import UIKit
 
 internal class ImageSnapper {
     
-    private func getRenderedImageOfView(_ view: UIView, drawInHierarchy: Bool = true) -> UIImage {
+    private func getRenderedImageOfView(_ view: UIView, drawInHierarchy: Bool = true) -> UIImage {        
         let renderer = UIGraphicsImageRenderer(bounds: view.bounds)
         
         view.frame.origin = .init(x: 0, y: view.safeAreaInsets.top)
         view.backgroundColor = .clear
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
         
         return renderer.image { ctx in
             if drawInHierarchy {

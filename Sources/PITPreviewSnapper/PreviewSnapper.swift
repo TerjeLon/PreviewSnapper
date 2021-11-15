@@ -26,7 +26,8 @@ public class PreviewSnapper {
         for (index, preview) in previews.enumerated() {
             let image = imageSnapper.snapView(
                 preview.content,
-                size: try item.getCGSize(for: preview)
+                size: try item.getCGSize(for: preview),
+                drawInHierarchy: drawInHierarchy
             )
             
             fileStorage.storeImage(
