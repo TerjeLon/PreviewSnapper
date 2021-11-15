@@ -44,6 +44,8 @@ public enum PreviewSnapFrame {
         hosting.view.frame = window.frame
         window.addSubview(hosting.view)
         window.makeKeyAndVisible()
+        hosting.view.setNeedsLayout()
+        hosting.view.layoutIfNeeded()
         
         if let scrollview = getScrollview(inView: hosting.view) {
             // Unsure where the 5 extra units come from, should be found
