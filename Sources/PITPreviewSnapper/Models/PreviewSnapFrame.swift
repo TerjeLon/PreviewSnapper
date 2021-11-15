@@ -44,7 +44,6 @@ public enum PreviewSnapFrame {
         hosting.view.frame = window.frame
         window.addSubview(hosting.view)
         window.makeKeyAndVisible()
-        hosting.view.drawHierarchy(in: UIScreen.main.bounds, afterScreenUpdates: true)
         
         if let scrollview = getScrollview(inView: hosting.view) {
             // Unsure where the 5 extra units come from, should be found
