@@ -4,10 +4,11 @@ public class PreviewSnapper {
     private let imageSnapper = ImageSnapper()
     private let fileStorage = FileStorage()
     private let storagePath: String
+    private let drawInHierarchy: Bool
     
     /// - Parameter path: Base storage path of where to create the "snaps" folder with corresponding snaps added to it.
     /// Defaults to ${PROJECT_ROOT}/output/snaps
-    public init(baseStoragePath path: String = #file) {
+    public init(baseStoragePath path: String = #file, drawInHierarchy: Bool = true) {
         let fileUrl = URL(fileURLWithPath: path, isDirectory: true)
         let directory = fileUrl
             .deletingLastPathComponent()
@@ -16,6 +17,7 @@ public class PreviewSnapper {
             .appendingPathComponent("snaps")
         
         storagePath = directory.absoluteString
+        self.drawInHierarchy = drawInHierarchy
     }
     
     public func snap(_ item: PreviewSnap) throws {

@@ -18,12 +18,12 @@ internal class ImageSnapper {
         }
     }
     
-    internal func snapView<T: View>(_ view: T, size: CGSize) -> UIImage {
+    internal func snapView<T: View>(_ view: T, size: CGSize, drawInHierarchy: Bool = true) -> UIImage {
         let window = UIWindow(frame: CGRect(origin: .zero, size: size))
         let hosting = UIHostingController(rootView: view)
         hosting.view.frame = window.frame
         window.addSubview(hosting.view)
         window.makeKeyAndVisible()
-        return getRenderedImageOfView(hosting.view)
+        return getRenderedImageOfView(hosting.view, drawInHierarchy: drawInHierarchy)
     }
 }
