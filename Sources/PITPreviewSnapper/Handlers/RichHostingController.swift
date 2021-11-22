@@ -6,7 +6,9 @@ class RichHostingController<Content>: UIHostingController<Content> where Content
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+        
+        // Denne er litt stygg, må finne en måte å faktisk vente på states til å oppdatere seg
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.onLayoutFinished?()
         }
     }
