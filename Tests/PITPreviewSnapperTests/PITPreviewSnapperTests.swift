@@ -15,7 +15,7 @@ final class PITPreviewSnapperTests: XCTestCase {
     }
 }
 
-private struct Test_Previews: PreviewProvider {
+struct Test_Previews: PreviewProvider {
     static var previews: some View {
         Rectangle()
             .fill(Color.red)

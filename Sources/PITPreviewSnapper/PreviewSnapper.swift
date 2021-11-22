@@ -1,4 +1,5 @@
 import SwiftUI
+import XCTest
 
 public class PreviewSnapper {
     private let imageSnapper = ImageSnapper()
@@ -24,17 +25,25 @@ public class PreviewSnapper {
         let previews = item.preview
         
         for (index, preview) in previews.enumerated() {
-            let image = imageSnapper.snapView(
+            let exp = XCTestExpectation(description: "Waiting for snapshot")
+            
+            imageSnapper.snapView(
                 preview.content,
                 size: try item.getCGSize(for: preview),
                 drawInHierarchy: drawInHierarchy
-            )
+            ) { image in
+                DispatchQueue.main.async {
+                    self.fileStorage.storeImage(
+                        image,
+                        atPath: URL(string: self.storagePath)!,
+                        named: self.getFilename(o: item, index: index, preview: preview)
+                    )
+                }
+                
+                exp.fulfill()
+            }
             
-            fileStorage.storeImage(
-                image,
-                atPath: URL(string: storagePath)!,
-                named: getFilename(o: item, index: index, preview: preview)
-            )
+            _ = XCTWaiter.wait(for: [exp], timeout: 3)
         }
     }
     
