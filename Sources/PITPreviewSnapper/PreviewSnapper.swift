@@ -27,6 +27,8 @@ public class PreviewSnapper {
         for (index, preview) in previews.enumerated() {
             let exp = XCTestExpectation(description: "Waiting for snapshot")
             
+            item.setFrame(preview.layout)
+            
             imageSnapper.snapView(
                 preview.content,
                 size: try item.getCGSize(for: preview),

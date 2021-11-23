@@ -20,8 +20,16 @@ public class PreviewSnap {
     }
     
     @discardableResult
-    public func setFrame(_ frame: PreviewSnapFrame) -> Self {
-        self.frame = frame
+    internal func setFrame(_ frame: PreviewLayout) -> Self {
+        switch frame {
+        case .device:
+            self.frame = .matchDevice
+        case .sizeThatFits:
+            self.frame = .sizeToFit
+        case .fixed(let width, let height):
+            self.frame = .fixed(width: .value(width), height: .value(height))
+        }
+        
         return self
     }
     
