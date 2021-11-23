@@ -17,7 +17,7 @@ final class PITPreviewSnapperTests: XCTestCase {
             PreviewSnap(
                 preview: Test_Landscape._allPreviews,
                 filename: "Test_Landscape"
-            ).setOrientation(.landscape)
+            )
         )
     }
 }
@@ -31,37 +31,42 @@ struct Test_Previews: PreviewProvider {
                 .previewLayout(.sizeThatFits)
                 .previewDisplayName("_sizeToFit")
             
-            VStack {
-                Spacer()
-                HStack {
+            if #available(iOS 15.0, *) {
+                VStack {
                     Spacer()
-                    Rectangle()
-                        .fill(Color.red)
-                        .frame(width: 50, height: 50)
+                    HStack {
+                        Spacer()
+                        Rectangle()
+                            .fill(Color.red)
+                            .frame(width: 50, height: 50)
+                        Spacer()
+                    }
                     Spacer()
                 }
-                Spacer()
+                .background(Color.white)
+                .previewLayout(.device)
+                .previewDisplayName("_matchDevice")
             }
-            .background(Color.white)
-            .previewLayout(.device)
-            .previewDisplayName("_matchDevice")
         }
     }
 }
 
 struct Test_Landscape: PreviewProvider {
     static var previews: some View {
-        VStack {
-            Spacer()
-            HStack {
+        if #available(iOS 15.0, *) {
+            VStack {
                 Spacer()
-                Rectangle()
-                    .fill(Color.red)
-                    .frame(width: 50, height: 80)
+                HStack {
+                    Spacer()
+                    Rectangle()
+                        .fill(Color.red)
+                        .frame(width: 50, height: 80)
+                    Spacer()
+                }
                 Spacer()
             }
-            Spacer()
+            .background(Color.white)
+            .previewInterfaceOrientation(.landscapeLeft)
         }
-        .background(Color.white)
     }
 }

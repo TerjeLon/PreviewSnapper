@@ -22,20 +22,27 @@ public class PreviewSnap {
     @discardableResult
     internal func setFrame(_ frame: PreviewLayout) -> Self {
         switch frame {
-        case .device:
-            self.frame = .matchDevice
         case .sizeThatFits:
             self.frame = .sizeToFit
         case .fixed(let width, let height):
             self.frame = .fixed(width: .value(width), height: .value(height))
+        default:
+            self.frame = .matchDevice
         }
         
         return self
     }
     
+    @available(iOS 15.0, *)
     @discardableResult
-    public func setOrientation(_ orientation: PreviewSnapOrientation) -> Self {
-        self.orientation = orientation
+    internal func setOrientation(_ orientation: InterfaceOrientation) -> Self {
+        switch orientation {
+        case .landscapeLeft, .landscapeRight:
+            self.orientation = .landscape
+        default:
+            self.orientation = .portrait
+        }
+        
         return self
     }
 }

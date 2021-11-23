@@ -1,6 +1,6 @@
 import Foundation
 
-public enum PreviewSnapOrientation {
+internal enum PreviewSnapOrientation {
     case portrait
     case landscape
 }

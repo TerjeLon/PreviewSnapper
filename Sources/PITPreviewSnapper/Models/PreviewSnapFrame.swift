@@ -1,12 +1,12 @@
 import UIKit
 import SwiftUI
 
-public enum PreviewSnapSize {
+internal enum PreviewSnapSize {
     case matchDevice
     case value(_ n: CGFloat)
 }
 
-public enum PreviewSnapFrame {
+internal enum PreviewSnapFrame {
     /// Matches simulator device bounds running the snapshotter
     case matchDevice
     

@@ -27,6 +27,10 @@ public class PreviewSnapper {
         for (index, preview) in previews.enumerated() {
             let exp = XCTestExpectation(description: "Waiting for snapshot")
             
+            if #available(iOS 15.0, *) {
+                item.setOrientation(preview.interfaceOrientation)
+            }
+            
             item.setFrame(preview.layout)
             
             imageSnapper.snapView(
