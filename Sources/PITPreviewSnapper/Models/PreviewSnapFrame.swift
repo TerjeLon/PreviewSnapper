@@ -16,10 +16,10 @@ public enum PreviewSnapFrame {
     /// Sets the exact frame provided
     case fixed(width: PreviewSnapSize, height: PreviewSnapSize)
     
-    internal func getCGSize(for preview: _Preview) throws -> CGSize {
+    internal func getCGSize(for preview: _Preview) throws -> (CGSize, UIView?) {
         switch self {
         case .matchDevice:
-            return UIScreen.main.bounds.size
+            return (UIScreen.main.bounds.size, nil)
         case .sizeToFit:
             return try calculateSizeToFit(for: preview)
         case .fixed(let width, let height):
@@ -34,11 +34,11 @@ public enum PreviewSnapFrame {
                 _height = n
             }
             
-            return CGSize(width: _width, height: _height)
+            return (CGSize(width: _width, height: _height), nil)
         }
     }
     
-    private func calculateSizeToFit(for preview: _Preview) throws -> CGSize {
+    private func calculateSizeToFit(for preview: _Preview) throws -> (CGSize, UIView?) {
         let window = UIWindow(frame: CGRect(origin: .zero, size: UIScreen.main.bounds.size))
         let hosting = UIHostingController(rootView: preview.content)
         hosting.view.frame = window.frame
@@ -49,13 +49,13 @@ public enum PreviewSnapFrame {
         
         if let scrollview = getScrollview(inView: hosting.view) {
             // Unsure where the 5 extra units come from, should be found
-            return CGSize(width: scrollview.frame.maxX, height: scrollview.frame.maxY + (hosting.view.safeAreaInsets.top - 5))
+            return (CGSize(width: scrollview.frame.maxX, height: scrollview.frame.maxY + (hosting.view.safeAreaInsets.top - 5)), hosting.view)
         } else {
             guard let size = hosting.view.subviews.first?.bounds.size else {
                 throw PreviewSnapFrameError.sizeToFitNoBoundsFound
             }
             
-            return CGSize(width: size.width, height: size.height)
+            return (CGSize(width: size.width, height: size.height), hosting.view)
         }
     }
     

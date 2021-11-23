@@ -11,12 +11,12 @@ public class PreviewSnap {
         self.filename = filename
     }
     
-    internal func getCGSize(for preview: _Preview) throws -> CGSize {
+    internal func getCGSize(for preview: _Preview) throws -> (CGSize, UIView?) {
         let size = try frame.getCGSize(for: preview)
         
         return orientation == .portrait
             ? size
-            : CGSize(width: size.height, height: size.width)
+            : (CGSize(width: size.0.height, height: size.0.width), size.1)
     }
     
     @discardableResult
