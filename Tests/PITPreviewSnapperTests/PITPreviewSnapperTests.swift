@@ -4,7 +4,7 @@ import SwiftUI
 
 final class PITPreviewSnapperTests: XCTestCase {
     func testWithoutHierarchy() throws {
-        let snapper = PreviewSnapper(drawInHierarchy: false)
+        let snapper = PreviewSnapper(storageFolderRelativePath: "Tests/output/snaps", drawInHierarchy: false)
         
         try! snapper.snap(
             PreviewSnap(
