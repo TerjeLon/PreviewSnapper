@@ -3,26 +3,56 @@ import SwiftUI
 @testable import PITPreviewSnapper
 
 final class PITPreviewSnapperTests: XCTestCase {
-    func testWithoutHierarchy() throws {
-        let snapper = PreviewSnapper(storageFolderRelativePath: "Tests/output/snaps", drawInHierarchy: false)
-        
+    let snapper = PreviewSnapper(storageFolderRelativePath: "Tests/output/snaps", drawInHierarchy: false)
+    
+    func testWithoutHierarchyDevice() throws {
         try! snapper.snap(
             PreviewSnap(
-                preview: Test_Previews._allPreviews,
+                preview: Test_Device._allPreviews,
                 filename: "Test"
             )
         )
-        
+    }
+    
+    func testWithoutHierarchySizeFits() {
+        try! snapper.snap(
+            PreviewSnap(
+                preview: Test_SizeFits._allPreviews,
+                filename: "Test"
+            )
+        )
+    }
+    
+    func testWithoutHierarchyLandscape() {
         try! snapper.snap(
             PreviewSnap(
                 preview: Test_Landscape._allPreviews,
-                filename: "Test_Landscape"
+                filename: "Test"
             )
         )
     }
 }
 
-struct Test_Previews: PreviewProvider {
+struct Test_Device: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Rectangle()
+                    .fill(Color.red)
+                    .frame(width: 50, height: 50)
+                Spacer()
+            }
+            Spacer()
+        }
+        .background(Color.white)
+        .previewLayout(.device)
+        .previewDisplayName("_matchDevice")
+    }
+}
+
+struct Test_SizeFits: PreviewProvider {
     static var previews: some View {
         Group {
             Rectangle()
@@ -31,22 +61,11 @@ struct Test_Previews: PreviewProvider {
                 .previewLayout(.sizeThatFits)
                 .previewDisplayName("_sizeToFit")
             
-            if #available(iOS 15.0, *) {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Rectangle()
-                            .fill(Color.red)
-                            .frame(width: 50, height: 50)
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                .background(Color.white)
-                .previewLayout(.device)
-                .previewDisplayName("_matchDevice")
-            }
+            Rectangle()
+                .fill(Color.red)
+                .frame(width: 50, height: 100)
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("_sizeToFit2")
         }
     }
 }
@@ -67,6 +86,7 @@ struct Test_Landscape: PreviewProvider {
             }
             .background(Color.white)
             .previewInterfaceOrientation(.landscapeLeft)
+            .previewDisplayName("_landscape")
         }
     }
 }

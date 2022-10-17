@@ -27,31 +27,25 @@ public class PreviewSnapper {
         let previews = item.preview
         
         for (index, preview) in previews.enumerated() {
-            let exp = XCTestExpectation(description: "Waiting for snapshot")
-            
             if #available(iOS 15.0, *) {
                 item.setOrientation(preview.interfaceOrientation)
             }
             
             item.setFrame(preview.layout)
             
-            imageSnapper.snapView(
-                preview.content,
-                size: try item.getCGSize(for: preview),
-                drawInHierarchy: drawInHierarchy
-            ) { image in
-                DispatchQueue.main.async {
-                    self.fileStorage.storeImage(
-                        image,
-                        atPath: URL(string: self.storagePath!)!,
-                        named: self.getFilename(o: item, index: index, preview: preview)
-                    )
-                }
-                
-                exp.fulfill()
-            }
+            let size = try item.getCGSize(for: preview)
             
-            _ = XCTWaiter.wait(for: [exp], timeout: 3)
+            let image = imageSnapper.getPreviewAsUIImage(
+                preview,
+                size: size,
+                drawInHierarchy: drawInHierarchy
+            )
+            
+            self.fileStorage.storeImage(
+                image.resized(to: size),
+                atPath: URL(string: self.storagePath!)!,
+                named: self.getFilename(o: item, index: index, preview: preview)
+            )
         }
     }
     
